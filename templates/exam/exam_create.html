@@ -1,0 +1,117 @@
+{% extends "base.html" %} 
+
+{% block content %}
+
+<div class="container mt-5">
+  <h2 class="text-center mb-5">Create Exam</h2>
+  <form method='post'>
+    {%csrf_token%}
+    <div class="form-group">
+      <label for="exam-title">Exam Title:</label>
+      <input name='exam_name' type="text" class="form-control" id="exam-title" required />
+    </div>
+    <div class="form-group">
+      <label for="exam-description">Exam Description:</label>
+      <textarea name='exam_description' class="form-control" id="exam-description" rows="3" required></textarea>
+    </div>
+    
+    <hr />
+    <hr />
+    <div id="question-container">
+      <div class="question mb-3">
+        <div class="form-group">
+            
+                
+          <label for="question1">Question:</label>
+          <span class='ml-3'><button class="fas fa-trash-alt text-danger remove-question">Remove</button></span>
+          <input name='question1' type="text" class="form-control" id="question1" required />
+        </div>
+        <div class="form-group">
+          <label for="choice11">Choice 1:</label>
+          <input name='choice11' type="text" class="form-control" id="choice11" required />
+        </div>
+        <div class="form-group">
+          <label for="choice12">Choice 2:</label>
+          <input name='choice12' type="text" class="form-control" id="choice12" required />
+        </div>
+        <div class="form-group">
+          <label for="choice13">Choice 3:</label>
+          <input name='choice13' type="text" class="form-control" id="choice13" required />
+        </div>
+        <div class="form-group">
+          <label for="choice14">Choice 4:</label>
+          <input name='choice14' type="text" class="form-control" id="choice14" required />
+        </div>
+        <div class="form-group">
+          <label for="correct-answer1">Correct Answer:</label>
+          <select name='correct-answer1' class="form-control" id="correct-answer1">
+            <option value="1">Choice 1</option>
+            <option value="2">Choice 2</option>
+            <option value="3">Choice 3</option>
+            <option value="4">Choice 4</option>
+          </select>
+        </div>
+        <div class="form-group">
+        </div>
+      </div>
+    </div>
+    <button type="button" class="btn btn-primary" id="add-question">
+      Add Question
+    </button>
+    <input type="hidden" id='qCount' name="questionCounter" value='1'>
+    <button type="submit" class="btn btn-success mt-3">Submit</button>
+  </form>
+</div>
+{%endblock%}
+
+{%block script%}
+  $(document).ready(function () {
+    var questionCounter = 1;
+    $("#add-question").click(function () {
+      questionCounter++;
+      
+      $("#qCount").val(questionCounter);
+
+      var question =
+        `<hr><div class="question mb-3">
+        <div class="form-group">
+          <label for="question${questionCounter}">Question :</label>
+          <span class='ml-3'><button class="fas fa-trash-alt text-danger remove-question">Remove</button></span>
+          <input name='question${questionCounter}' type="text" class="form-control" id="question${questionCounter}" required>
+        </div>
+        <div class="form-group">
+          <label for="choice${questionCounter}1">Choice 1:</label>
+          <input name='choice${questionCounter}1' type="text" class="form-control" id="choice${questionCounter}1" required>
+        </div>
+        <div class="form-group">
+            <label for="choice${questionCounter}2">Choice 2:</label>
+            <input name='choice${questionCounter}2' type="text" class="form-control" id="choice${questionCounter}2" required>
+        </div>
+        <div class="form-group">
+            <label for="choice${questionCounter}3">Choice 3:</label>
+            <input name='choice${questionCounter}3' type="text" class="form-control" id="choice${questionCounter}3" required>
+        </div>
+        <div class="form-group">
+            <label for="choice${questionCounter}4">Choice 4:</label>
+            <input name='choice${questionCounter}4' type="text" class="form-control" id="choice${questionCounter}4" required>
+        </div>
+        <div class="form-group">
+            <label for="correct-answer${questionCounter}">Correct Answer:</label>
+            <select name="correct-answer${questionCounter}" class="form-control" id="correct-answer${questionCounter}">
+              <option value="1">Choice 1</option>
+              <option value="2">Choice 2</option>
+              <option value="3">Choice 3</option>
+              <option value="4">Choice 4</option>
+            </select>
+            
+        </div>
+        
+        </div>`;
+      $("#question-container").append(question);
+    });
+
+    $("#question-container").on("click", ".remove-question", function() {
+        $(this).closest(".question").remove();
+      });
+  });
+{%endblock%}

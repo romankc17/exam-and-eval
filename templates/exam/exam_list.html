@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container">
+    <h2 class="mb-4">Exam List</h2>
+    
+      {% for exam in exams %}
+      
+          <div class="card exam-card">
+            <div class="card-body">
+              <h5 class="card-title">{{ exam.exam_name }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">{{ exam.date }}</h6>
+              <p class="card-text">{{ exam.description }}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="badge badge-info">{{ exam.question_count }} questions</span>
+                {% if exam.is_enrolled %}
+                  <span class="badge badge-success">Enrolled</span>
+                {% else %}
+                  <span class="badge badge-secondary">Not Enrolled</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+      {% endfor %}
+  </div>
+  {% endblock %}
+
+ {%block style%}
+    .exam-card {
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s ease-in-out;
+    }
+
+    .exam-card:hover {
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      transform: translateY(-3px);
+    }
+
+    .badge {
+      font-size: 14px;
+      padding: 6px 12px;
+      text-transform: uppercase;
+      border-radius: 5px;
+    }
+
+    .badge-info {
+      background-color: #4e73df;
+    }
+
+    .badge-success {
+      background-color: #1cc88a;
+    }
+
+    .badge-secondary {
+      background-color: #858796;
+    }
+{% endblock %}

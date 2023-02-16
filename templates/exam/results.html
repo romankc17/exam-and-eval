@@ -1,0 +1,28 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+  <h1 class="text-center">Enrolled Exams</h1>
+  <table class="table table-striped mt-5">
+    <thead>
+      <tr>
+        <th>Exam Name</th>
+        <th>Score</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for enrollment in enrollments %}
+      <tr>
+        <td>{{ enrollment.exam.exam_name }}</td>
+        <td>{{ enrollment.score }}</td>
+        <td>{{ enrollment.date_enrolled }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock content %}
