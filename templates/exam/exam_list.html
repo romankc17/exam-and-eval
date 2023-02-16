@@ -8,7 +8,7 @@
       
           <div class="card exam-card">
             <div class="card-body">
-              <h5 class="card-title">{{ exam.exam_name }}</h5>
+              <h5 class="card-title"><a href={%url 'exam_detail' exam.id%}>{{ exam.exam_name }}</a></h5>
               <h6 class="card-subtitle mb-2 text-muted">{{ exam.date }}</h6>
               <p class="card-text">{{ exam.description }}</p>
               <div class="d-flex justify-content-between align-items-center">
