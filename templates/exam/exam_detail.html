@@ -1,21 +1,23 @@
-<!-- exam_detail.html -->
-
 {% extends 'base.html' %}
 
 {% block content %}
 
-<div class="container my-5">
-  <h1 class="text-center">{{ exam.name }}</h1>
+  
+  
+  <h1 class="text-center">{{ exam.exam_name }}</h1>
+
+  
+  
   <form method="post">
     {% csrf_token %}
     {% for question in questions %}
     <div class="card my-3">
       <div class="card-header">
-        {{ question.question_text }}
+        <h5>{{ question.question_text }}</h5>
       </div>
       <div class="card-body">
         {% for choice in question.choice_set.all %}
-        <div class="form-check">
+        <div class="form-check choice">
           <input class="form-check-input" type="radio" name="question-{{ question.id }}" id="{{ choice.id }}" value="{{ choice.id }}">
           <label class="form-check-label" for="{{ choice.id }}">{{ choice.choice_text }}</label>
         </div>
@@ -23,8 +25,102 @@
       </div>
     </div>
     {% endfor %}
-    <input type="submit" value="Submit">
+    <div class="container my-4">
+      <div class="row">
+        <div class="col-md-6">
+          <h4 id="questions-answered">Answered: 0</h4>
+        </div>
+        <div class="col-md-6">
+          <h4 id="questions-remaining">Remaining: {{ questions.count }}</h4>
+        </div>
+      </div>
+    </div>
+  
+    <button type="submit" class="btn btn-primary btn-lg btn-block my-4">Submit</button>
   </form>
+  
 </div>
-
 {% endblock %}
+{% block style %}
+<style>
+  .choice {
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+  }
+
+  .choice:hover {
+    background-color: #f8f9fa;
+    border-color: #b9bbbe;
+  }
+
+  .choice label {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .choice input[type="radio"] {
+    margin-right: 10px;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+
+  .btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+  }
+
+  .btn-primary:focus {
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+  }
+
+  #questions-answered {
+    background-color: #17a2b8;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  #questions-remaining {
+    background-color: #6c757d;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+</style>
+{% endblock %}
+
+{% block script %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    const totalQuestions = {{ questions.count }};
+    const choices = $('.choice input[type=radio]');
+    const remainingQuestions = totalQuestions - choices.filter(':checked').length;
+
+    updateQuestionStatus();
+
+    choices.change(function() {
+      updateQuestionStatus();
+    });
+
+    function updateQuestionStatus() {
+      const questionsAnswered = choices.filter(':checked').length;
+      const questionsRemaining = totalQuestions - questionsAnswered;
+
+      $('#questions-answered').text(`Answered: ${questionsAnswered}`);
+      $('#questions-remaining').text(`Remaining: ${questionsRemaining}`);
+    }
+  });
+</script>
+{% endblock %}
+

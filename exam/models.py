@@ -31,7 +31,7 @@ class Choice(models.Model):
     
 class Enrollment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE,related_name='enrollment_set')
     score = models.FloatField()
     date_enrolled = models.DateTimeField(auto_now_add=True)
     

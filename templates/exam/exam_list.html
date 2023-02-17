@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{%load exam_tags%}
 
 {% block content %}
   <div class="container">
@@ -13,7 +14,8 @@
               <p class="card-text">{{ exam.description }}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <span class="badge badge-info">{{ exam.question_count }} questions</span>
-                {% if exam.is_enrolled %}
+                
+                {% if exam|is_enrolled:request.user %}
                   <span class="badge badge-success">Enrolled</span>
                 {% else %}
                   <span class="badge badge-secondary">Not Enrolled</span>

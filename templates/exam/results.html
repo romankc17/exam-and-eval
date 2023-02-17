@@ -1,28 +1,69 @@
-
 {% extends 'base.html' %}
 
 {% block content %}
 
-<div class="container mt-5">
-  <h1 class="text-center">Enrolled Exams</h1>
-  <table class="table table-striped mt-5">
-    <thead>
-      <tr>
-        <th>Exam Name</th>
-        <th>Score</th>
-        <th>Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for enrollment in enrollments %}
-      <tr>
-        <td>{{ enrollment.exam.exam_name }}</td>
-        <td>{{ enrollment.score }}</td>
-        <td>{{ enrollment.date_enrolled }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<div class="container my-5">
+  <h1 class="text-center mb-5">Enrolled Exams</h1>
+  <div class="row">
+    {% for enrollment in enrollments %}
+    <div class="col-lg-6 col-xl-4 mb-5">
+      <div class="card shadow-lg">
+        <div class="card-body">
+          <h5 class="card-title">{{ enrollment.exam.exam_name }}</h5>
+          <p class="card-text mb-2">Score: {{ enrollment.score }}</p>
+          <p class="card-text mb-2">Date Enrolled: {{ enrollment.date_enrolled }}</p>
+          <a href="" class="btn btn-primary btn-sm">Retake Exam</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
 </div>
 
-{% endblock content %}
+{% block style %}
+<style>
+  body {
+    background-color: #f1f3f4;
+  }
+
+  h1, h5 {
+    color: #007bff;
+  }
+
+  .card {
+    border: none;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+  }
+
+  .card-title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  .card-text {
+    font-size: 18px;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+
+  .btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+  }
+
+  .btn-primary:focus {
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+  }
+</style>
+{% endblock %}
+
+{% endblock %}
